@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="HTTP">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/HTTP.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
