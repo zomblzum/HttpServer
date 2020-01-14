@@ -3,12 +3,12 @@ import java.io.File;
 class Response {
     private ResponseStatus status;
     private String header;
-    private File content;
+    private File file;
 
-    Response(ResponseStatus status, String header, File content) {
+    Response(ResponseStatus status, String header, File file) {
         this.status = status;
         this.header = header;
-        this.content = content;
+        this.file = file;
     }
 
     ResponseStatus getStatus() {
@@ -19,7 +19,7 @@ class Response {
         return header;
     }
 
-    File getContent() {
-        return content;
+    File getFile() {
+        return file;
     }
 }

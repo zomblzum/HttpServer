@@ -8,8 +8,4 @@ class Settings {
     int getPort() {
         return port;
     }
-
-    void setPort(int port) {
-        this.port = port;
-    }
 }
