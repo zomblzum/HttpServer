@@ -3,7 +3,7 @@ import java.io.IOException;
 class RequestParser {
     private static final String INDEX_DEFAULT_NAME = "index.html";
 
-    String parse(String request) throws IOException {
+    String getUrlFromRequest(String request) throws IOException {
         String urlString = request.substring(request.indexOf(' ')+2);
         urlString = urlString.substring(0, urlString.indexOf(' '));
 
