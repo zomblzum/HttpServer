@@ -1,17 +1,19 @@
-class SettingsParser {
+class SettingsBuilder {
     private static final int DEFAULT_PORT = 8080;
 
     private String[] args;
 
-    Settings parse(String[] args) {
+    SettingsBuilder(String[] args) {
         this.args = args;
+    }
 
-        int port = findPort();
+    Settings build() {
+        int port = getPort();
 
         return new Settings(port);
     }
 
-    private int findPort() {
+    private int getPort() {
         try {
             return Integer.parseInt(args[0]);
         } catch (Exception ignored) {
