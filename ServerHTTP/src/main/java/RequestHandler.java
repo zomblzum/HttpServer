@@ -19,9 +19,9 @@ class RequestHandler implements Runnable {
     public void run() {
         try {
             if(bufferedReader.ready()) {
-                String requestFile = new RequestParser().parse(bufferedReader.readLine());
+                String requestFile = new RequestParser().getUrlFromRequest(bufferedReader.readLine());
                 File responseFile = new File(requestFile);
-                Response response = new ResponseBuilder().buildResponseFromFile(responseFile);
+                Response response = new ResponseFactory().getResponseFromFile(responseFile);
                 sendResponse(response);
             }
         } catch (IOException e) {
@@ -39,19 +39,19 @@ class RequestHandler implements Runnable {
         bufferedWriter.write(response.getHeader());
         bufferedWriter.flush();
 
-        if(response.getContent() != null) {
-            String fileExtension = response.getContent().getName().substring(response.getContent().getName().lastIndexOf('.'));
+        if(response.getFile() != null) {
+            String fileExtension = response.getFile().getName().substring(response.getFile().getName().lastIndexOf('.'));
 
             if ((fileExtension.contains(".png")) || fileExtension.contains(".jpg") ||
                     fileExtension.contains(".jpeg") || fileExtension.contains(".gif")) {
-                BufferedImage image = ImageIO.read(response.getContent());
+                BufferedImage image = ImageIO.read(response.getFile());
 
                 if (image != null) {
                     ImageIO.write(image, fileExtension.substring(1), socket.getOutputStream());
                 }
             }
             else {
-                BufferedReader cachedFileBufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(response.getContent())));
+                BufferedReader cachedFileBufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(response.getFile())));
 
                 String line;
                 while ((line = cachedFileBufferedReader.readLine()) != null) {

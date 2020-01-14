@@ -3,25 +3,28 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 class Server implements Runnable {
-    private ServerSocket serverSocket;
+    private Settings settings;
 
-    Server(Settings settings) throws IOException {
-        serverSocket = new ServerSocket(settings.getPort());
+    Server(Settings settings) {
+        this.settings = settings;
     }
 
     @Override
     public void run() {
-        System.out.println("Server started on port: " + serverSocket.getLocalPort());
-        while(true) {
-            try {
-                Socket request = serverSocket.accept();
-                Thread response = new Thread(new RequestHandler(request));
-                response.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            tryRun();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-
+    private void tryRun() throws IOException {
+        ServerSocket serverSocket = new ServerSocket(settings.getPort());
+        System.out.println("Server started on port: " + serverSocket.getLocalPort());
+        while(true) {
+            Socket request = serverSocket.accept();
+            Thread response = new Thread(new RequestHandler(request));
+            response.start();
+        }
+    }
 }

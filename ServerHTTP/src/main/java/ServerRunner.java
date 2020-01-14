@@ -1,21 +1,15 @@
-import java.io.IOException;
 import java.util.Scanner;
 
 public class ServerRunner implements Runnable {
     private final Thread serverThread;
 
     public static void main(String[] args) {
-        try {
-            ServerRunner serverRunner = new ServerRunner(args);
-            Thread serverConsole = new Thread(serverRunner);
-            serverConsole.run();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Settings settings = new SettingsBuilder(args).build();
+        ServerRunner serverRunner = new ServerRunner(settings);
+        new Thread(serverRunner).run();
     }
 
-    private ServerRunner(String[] args) throws IOException {
-        Settings settings = new SettingsParser().parse(args);
+    private ServerRunner(Settings settings) {
         this.serverThread = new Thread(new Server(settings));
         this.serverThread.start();
     }
